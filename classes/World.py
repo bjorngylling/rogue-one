@@ -1,4 +1,5 @@
 import libtcodpy as libtcod
+import copy
 
 
 class Map:
@@ -7,11 +8,9 @@ class Map:
         self.map_height = map_height
         self.map_width = map_width
         self.con = con
+        self.map = [[]]
 
     def make_map(self):
-        self.map = [[Tile(".", libtcod.white, False)
-                     for y in range(self.map_height)]
-                    for x in range(self.map_width)]
         self.map[30][22].blocked = True
         self.map[30][22].block_sight = True
         self.map[30][22].char = '#'
@@ -29,6 +28,11 @@ class Map:
                 libtcod.console_set_default_foreground(self.con, tile.fg_color)
                 libtcod.console_put_char(
                     self.con, x, y, tile.char, libtcod.BKGND_NONE)
+
+    def fill_map(self, tile):
+        self.map = [[copy.deepcopy(tile)
+                     for y in range(self.map_height)]
+                    for x in range(self.map_width)]
 
 
 class Tile:

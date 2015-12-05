@@ -1,10 +1,10 @@
 import libtcodpy as libtcod
 from classes.Object import Object
 from classes.World import Map
+from classes.world_generation.RandomRoomGeneration import RandomRoomGeneration
 
 
 def handle_keys():
-    global playerx, playery
 
     key = libtcod.console_wait_for_keypress(True)
 
@@ -39,18 +39,19 @@ MAP_WIDTH = 80
 MAP_HEIGHT = 45
 
 libtcod.console_set_custom_font(
-    'arial10x10.png',
-    libtcod.FONT_TYPE_GREYSCALE | libtcod.FONT_LAYOUT_TCOD)
+    'terminal12x12_gs_ro.png',
+    libtcod.FONT_TYPE_GREYSCALE | libtcod.FONT_LAYOUT_ASCII_INROW)
 
 libtcod.console_init_root(SCREEN_WIDTH, SCREEN_HEIGHT, 'rogue-one', False)
 con = libtcod.console_new(SCREEN_WIDTH, SCREEN_HEIGHT)
 
-player = Object(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, '@', libtcod.white, con)
-npc = Object(SCREEN_WIDTH/2 + 3, SCREEN_HEIGHT/2 + 3, '@', libtcod.yellow, con)
+player = Object(27, 22, '@', libtcod.white, con)
+npc = Object(56, 27, '@', libtcod.yellow, con)
 objects = [player, npc]
 
+rrgen = RandomRoomGeneration()
 world = Map(MAP_HEIGHT, MAP_WIDTH, con)
-world.make_map()
+rrgen.make_map(world)
 
 while not libtcod.console_is_window_closed():
     libtcod.console_set_default_foreground(0, libtcod.white)
