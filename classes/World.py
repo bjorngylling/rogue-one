@@ -16,16 +16,29 @@ class Level:
     def __getitem__(self, key):
         return self.level[key]
 
-    def draw(self):
+    def draw(self, fov_map):
         for y in range(self.map_height):
             for x in range(self.map_width):
                 tile = self.level[x][y]
+                in_fov = libtcod.map_is_in_fov(fov_map, x, y)
+                if in_fov:
+                    tile.explored = True
+                if tile.explored:
+                    self.draw_tile(tile, x, y, in_fov)
 
-                libtcod.console_set_char_background(
-                    self.con, x, y, tile.bk_color, libtcod.BKGND_SET)
-                libtcod.console_set_default_foreground(self.con, tile.fg_color)
-                libtcod.console_put_char(
-                    self.con, x, y, tile.char, libtcod.BKGND_NONE)
+    def draw_tile(self, tile, x, y, in_fov):
+        bk_color = tile.bk_color
+        fg_color = tile.fg_color
+
+        if in_fov:
+            bk_color = bk_color * 1.5
+            fg_color = fg_color * 1.5
+
+        libtcod.console_set_char_background(
+            self.con, x, y, bk_color, libtcod.BKGND_SET)
+        libtcod.console_set_default_foreground(self.con, fg_color)
+        libtcod.console_put_char(
+            self.con, x, y, tile.char, libtcod.BKGND_NONE)
 
     def fill_map(self, tile):
         self.level = [[copy.deepcopy(tile)
@@ -47,3 +60,5 @@ class Tile:
         if block_sight is None:
             block_sight = blocked
         self.block_sight = block_sight
+
+        self.explored = False

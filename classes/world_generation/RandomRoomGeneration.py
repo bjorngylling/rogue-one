@@ -5,6 +5,11 @@ import libtcodpy as libtcod
 
 class RandomRoomGeneration:
 
+    color_wall_dark = libtcod.Color(48, 42, 21)
+    color_wall_dark = libtcod.Color(48, 42, 21)
+    color_floor_dark = libtcod.Color(48, 42, 21)
+    color_floor_dark = libtcod.Color(48, 42, 21)
+
     def carve_square(self, x, y, map):
         map[x][y].blocked = False
         map[x][y].block_sight = False
