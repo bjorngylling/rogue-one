@@ -3,16 +3,18 @@ import libtcodpy as libtcod
 
 class Object:
 
-    def __init__(self, x, y, char, color, con):
+    def __init__(self, x, y, char, color, con, current_level):
         self.x = x
         self.y = y
         self.char = char
         self.color = color
         self.con = con
+        self.current_level = current_level
 
     def move(self, dx, dy):
-        self.x += dx
-        self.y += dy
+        if not self.current_level[self.x + dx][self.y + dy].blocked:
+            self.x += dx
+            self.y += dy
 
     def draw(self):
         libtcod.console_set_default_foreground(self.con, self.color)

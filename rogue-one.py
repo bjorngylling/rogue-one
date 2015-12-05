@@ -1,6 +1,6 @@
 import libtcodpy as libtcod
 from classes.Object import Object
-from classes.World import Map
+from classes.World import Level
 from classes.world_generation.RandomRoomGeneration import RandomRoomGeneration
 
 
@@ -45,13 +45,13 @@ libtcod.console_set_custom_font(
 libtcod.console_init_root(SCREEN_WIDTH, SCREEN_HEIGHT, 'rogue-one', False)
 con = libtcod.console_new(SCREEN_WIDTH, SCREEN_HEIGHT)
 
-player = Object(27, 22, '@', libtcod.white, con)
-npc = Object(56, 27, '@', libtcod.yellow, con)
-objects = [player, npc]
-
 rrgen = RandomRoomGeneration()
-world = Map(MAP_HEIGHT, MAP_WIDTH, con)
+world = Level(MAP_HEIGHT, MAP_WIDTH, con)
 rrgen.make_map(world)
+
+player = Object(27, 22, '@', libtcod.white, con, world)
+npc = Object(56, 27, '@', libtcod.yellow, con, world)
+objects = [player, npc]
 
 while not libtcod.console_is_window_closed():
     libtcod.console_set_default_foreground(0, libtcod.white)

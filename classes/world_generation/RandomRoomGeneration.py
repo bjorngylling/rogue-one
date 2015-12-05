@@ -9,7 +9,7 @@ class RandomRoomGeneration:
         map[x][y].blocked = False
         map[x][y].block_sight = False
         map[x][y].char = "."
-        map[x][y].fg_color = libtcod.Color(43, 35, 2)
+        map[x][y].fg_color = libtcod.Color(48, 42, 21)
 
     def carve_room(self, room, map):
         for x in range(room.x1 + 1, room.x2):
@@ -17,15 +17,15 @@ class RandomRoomGeneration:
                 self.carve_square(x, y, map)
 
     def make_map(self, map):
-        map.fill_map(Tile("#", libtcod.Color(43, 22, 2), True))
+        map.fill_map(Tile("#", libtcod.Color(48, 34, 21), True))
 
         room1 = Rect(20, 15, 10, 15)
         room2 = Rect(50, 15, 10, 15)
-        self.carve_room(room1, map.map)
-        self.carve_room(room2, map.map)
+        self.carve_room(room1, map)
+        self.carve_room(room2, map)
 
         def listener(x, y):
-            self.carve_square(x, y, map.map)
+            self.carve_square(x, y, map)
             return True
         libtcod.line(30, 18, 50, 18, listener)
 

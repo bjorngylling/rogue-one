@@ -2,26 +2,24 @@ import libtcodpy as libtcod
 import copy
 
 
-class Map:
+class Level:
 
     def __init__(self, map_height, map_width, con):
         self.map_height = map_height
         self.map_width = map_width
         self.con = con
-        self.map = [[]]
+        self.level = [[]]
 
-    def make_map(self):
-        self.map[30][22].blocked = True
-        self.map[30][22].block_sight = True
-        self.map[30][22].char = '#'
-        self.map[50][22].blocked = True
-        self.map[50][22].block_sight = True
-        self.map[50][22].char = '#'
+    def __setitem__(self, key, item):
+        self.level[key] = item
+
+    def __getitem__(self, key):
+        return self.level[key]
 
     def draw(self):
         for y in range(self.map_height):
             for x in range(self.map_width):
-                tile = self.map[x][y]
+                tile = self.level[x][y]
 
                 libtcod.console_set_char_background(
                     self.con, x, y, tile.bk_color, libtcod.BKGND_SET)
@@ -30,9 +28,9 @@ class Map:
                     self.con, x, y, tile.char, libtcod.BKGND_NONE)
 
     def fill_map(self, tile):
-        self.map = [[copy.deepcopy(tile)
-                     for y in range(self.map_height)]
-                    for x in range(self.map_width)]
+        self.level = [[copy.deepcopy(tile)
+                       for y in range(self.map_height)]
+                      for x in range(self.map_width)]
 
 
 class Tile:
