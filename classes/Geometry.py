@@ -1,12 +1,12 @@
 
 class Rect:
-    """A rectangle on the map. Used to characterize a room.
-    """
     def __init__(self, x, y, w, h):
         self.x1 = x
         self.y1 = y
         self.x2 = x + w
         self.y2 = y + h
+        self.w = w
+        self.h = h
 
     def center(self):
         center_x = (self.x1 + self.x2) / 2
