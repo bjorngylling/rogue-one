@@ -31,8 +31,8 @@ class Level:
         fg_color = tile.fg_color
 
         if in_fov:
-            bk_color = bk_color * 1.5
-            fg_color = fg_color * 1.5
+            bk_color = bk_color * 2
+            fg_color = fg_color * 2
 
         libtcod.console_set_char_background(
             self.con, x, y, bk_color, libtcod.BKGND_SET)

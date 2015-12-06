@@ -41,8 +41,8 @@ def render_all(fov_map):
 SCREEN_WIDTH = 80
 SCREEN_HEIGHT = 50
 
-MAP_WIDTH = 80
-MAP_HEIGHT = 45
+MAP_WIDTH = 70
+MAP_HEIGHT = 46
 
 FOV_ALGO = 0
 FOV_LIGHT_WALLS = True
@@ -60,8 +60,8 @@ world = Level(MAP_HEIGHT, MAP_WIDTH, con)
 rrgen.make_map(world)
 
 player = Object(27, 22, '@', libtcod.white, con, world)
-npc = Object(56, 27, '@', libtcod.yellow, con, world)
-objects = [player, npc]
+npc = Object(56, 27, 'J', libtcod.yellow, con, world)
+objects = [npc, player]
 
 fov_map = libtcod.map_new(MAP_WIDTH, MAP_HEIGHT)
 for y in range(MAP_HEIGHT):
