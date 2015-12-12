@@ -1,4 +1,4 @@
-import libtcodpy as libtcod
+import lib.libtcodpy as libtcod
 from classes.Object import Object
 from classes.World import Level
 from classes.world_generation.RandomRoomGenerator import RandomRoomGenerator
@@ -52,7 +52,8 @@ libtcod.console_set_custom_font(
     'terminal12x12_gs_ro.png',
     libtcod.FONT_TYPE_GREYSCALE | libtcod.FONT_LAYOUT_ASCII_INROW)
 
-libtcod.console_init_root(SCREEN_WIDTH, SCREEN_HEIGHT, 'rogue-one', False)
+libtcod.console_init_root(
+    SCREEN_WIDTH, SCREEN_HEIGHT, 'rogue-one', False, libtcod.RENDERER_GLSL)
 con = libtcod.console_new(SCREEN_WIDTH, SCREEN_HEIGHT)
 
 rrgen = RandomRoomGenerator()
@@ -67,7 +68,8 @@ fov_map = libtcod.map_new(MAP_WIDTH, MAP_HEIGHT)
 for y in range(MAP_HEIGHT):
     for x in range(MAP_WIDTH):
         libtcod.map_set_properties(
-            fov_map, x, y, not world[x][y].block_sight, not world[x][y].blocked)
+            fov_map, x, y,
+            not world[x][y].block_sight, not world[x][y].blocked)
 
 fov_recompute = True
 
@@ -77,7 +79,8 @@ while not libtcod.console_is_window_closed():
     if fov_recompute:
         fov_recompute = False
         libtcod.map_compute_fov(
-            fov_map, player.x, player.y, TORCH_RADIUS, FOV_LIGHT_WALLS, FOV_ALGO)
+            fov_map, player.x, player.y,
+            TORCH_RADIUS, FOV_LIGHT_WALLS, FOV_ALGO)
 
     render_all(fov_map)
 

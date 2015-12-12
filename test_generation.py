@@ -1,4 +1,4 @@
-import libtcodpy as libtcod
+import lib.libtcodpy as libtcod
 
 from classes.world_generation.BSPGenerator import BSPGenerator
 
@@ -33,7 +33,8 @@ libtcod.console_set_custom_font(
     'terminal12x12_gs_ro.png',
     libtcod.FONT_TYPE_GREYSCALE | libtcod.FONT_LAYOUT_ASCII_INROW)
 
-libtcod.console_init_root(SCREEN_WIDTH, SCREEN_HEIGHT, 'rogue-one', False)
+libtcod.console_init_root(
+    SCREEN_WIDTH, SCREEN_HEIGHT, 'rogue-one', False, libtcod.RENDERER_GLSL)
 
 for x in range(SCREEN_WIDTH):
     for y in range(SCREEN_HEIGHT):

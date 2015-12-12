@@ -1,4 +1,4 @@
-import libtcodpy as libtcod
+import lib.libtcodpy as libtcod
 
 from MapGeneration import BaseGenerator
 from ..Geometry import Rect

@@ -1,6 +1,6 @@
 import abc
 
-import libtcodpy as libtcod
+import lib.libtcodpy as libtcod
 
 from ..World import Tile
 
