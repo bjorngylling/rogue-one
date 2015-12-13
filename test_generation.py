@@ -1,6 +1,6 @@
 import lib.libtcodpy as libtcod
 
-from classes.world_generation.BSPGenerator import BSPGenerator
+from src.generation.BSPGenerator import BSPGenerator
 
 SCREEN_WIDTH = 80
 SCREEN_HEIGHT = 50

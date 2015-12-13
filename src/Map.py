@@ -2,7 +2,7 @@ import lib.libtcodpy as libtcod
 import copy
 
 
-class Level:
+class Level(object):
 
     def __init__(self, map_height, map_width, con):
         self.map_height = map_height
@@ -46,7 +46,7 @@ class Level:
                       for x in range(self.map_width)]
 
 
-class Tile:
+class Tile(object):
 
     def __init__(self, char, fg_color, blocked, bk_color=None, block_sight=None):
         self.char = char

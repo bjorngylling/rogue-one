@@ -2,14 +2,17 @@ import abc
 
 import lib.libtcodpy as libtcod
 
-from ..World import Tile
+from ..Map import Tile
 
 
 class BaseGenerator(object):
     __metaclass__ = abc.ABCMeta
 
+    def __init__(self, seed):
+        self.seed = seed
+
     @abc.abstractmethod
-    def run(self, map):
+    def run(self, map, seed):
         return
 
     def generate_map(self, width, height, el=1):
@@ -18,7 +21,7 @@ class BaseGenerator(object):
                 for x in range(width)]
 
 
-class TileGenerator:
+class TileGenerator(object):
 
     color_wall = libtcod.Color(48, 34, 21)
     color_floor = libtcod.Color(48, 42, 21)

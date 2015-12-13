@@ -1,7 +1,7 @@
 import lib.libtcodpy as libtcod
-from classes.Object import Object
-from classes.World import Level
-from classes.world_generation.RandomRoomGenerator import RandomRoomGenerator
+from src.Entity import Entity
+from src.Map import Level
+from src.generation.RandomRoomGenerator import RandomRoomGenerator
 
 
 def handle_keys():
@@ -60,8 +60,8 @@ rrgen = RandomRoomGenerator()
 world = Level(MAP_HEIGHT, MAP_WIDTH, con)
 rrgen.run(world)
 
-player = Object(27, 22, '@', libtcod.white, con, world)
-npc = Object(56, 27, 'J', libtcod.yellow, con, world)
+player = Entity(27, 22, '@', libtcod.white, con, world)
+npc = Entity(56, 27, 'J', libtcod.yellow, con, world)
 objects = [npc, player]
 
 fov_map = libtcod.map_new(MAP_WIDTH, MAP_HEIGHT)

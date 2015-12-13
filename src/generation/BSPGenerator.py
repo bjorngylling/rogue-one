@@ -9,7 +9,7 @@ class BSPGenerator(BaseGenerator):
     """
 
     def __init__(self, seed, number_of_iterations=4):
-        self.seed = seed
+        super(BSPGenerator, self).__init__(seed)
         self.number_of_iterations = number_of_iterations
 
     def run(self, map):

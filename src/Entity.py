@@ -1,7 +1,7 @@
 import lib.libtcodpy as libtcod
 
 
-class Object:
+class Entity(object):
 
     def __init__(self, x, y, char, color, con, current_level):
         self.x = x
