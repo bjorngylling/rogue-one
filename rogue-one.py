@@ -91,3 +91,5 @@ while not libtcod.console_is_window_closed():
 
     if handle_keys():
         break
+
+exit()

@@ -46,3 +46,5 @@ for x in range(SCREEN_WIDTH):
 libtcod.console_flush()
 
 libtcod.console_wait_for_keypress(True)
+
+exit()
