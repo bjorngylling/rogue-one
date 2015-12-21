@@ -1,7 +1,7 @@
 import lib.libtcodpy as libtcod
-from src.Entity import Entity
-from src.Map import Level
-from src.generation.RandomRoomGenerator import RandomRoomGenerator
+from rogue_one.Entity import Entity
+from rogue_one.Map import Level
+from rogue_one.generation.RandomRoomGenerator import RandomRoomGenerator
 
 
 def handle_keys():

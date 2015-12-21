@@ -48,7 +48,8 @@ class Level(object):
 
 class Tile(object):
 
-    def __init__(self, char, fg_color, blocked, bk_color=None, block_sight=None):
+    def __init__(self, char, fg_color, blocked, bk_color=None,
+                 block_sight=None):
         self.char = char
         if bk_color is None:
             bk_color = libtcod.black
