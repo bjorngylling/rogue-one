@@ -1,4 +1,4 @@
-from MapGeneration import BaseGenerator
+from map_generation import BaseGenerator
 
 
 class RandomRoomGenerator(BaseGenerator):

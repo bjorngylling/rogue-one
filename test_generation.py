@@ -1,6 +1,6 @@
 import lib.libtcodpy as libtcod
 
-from rogue_one.generation.BSPGenerator import BSPGenerator
+from rogue_one.generation.bsp_generation import BSPGenerator
 
 SCREEN_WIDTH = 80
 SCREEN_HEIGHT = 50

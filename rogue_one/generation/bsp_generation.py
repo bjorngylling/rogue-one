@@ -1,7 +1,8 @@
 import lib.libtcodpy as libtcod
 
-from MapGeneration import BaseGenerator
-from ..Geometry import Rect
+from rogue_one.geometry import Rect
+
+from map_generation import BaseGenerator
 
 
 class BSPGenerator(BaseGenerator):
@@ -82,5 +83,8 @@ def traverse_tree_depth_first(node, traveller):
     provided traveller for each individual node. Stops if the traverser returns
     False or if there are no further nodes.
     """
-    if (traverser(node)):
-
+    if traveller(node):
+        if node.left is not None:
+            traverse_tree_depth_first(node.left, traveller)
+        if node.right is not None:
+            traverse_tree_depth_first(node.right, traveller)

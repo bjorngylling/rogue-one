@@ -1,8 +1,7 @@
 import abc
-
 import lib.libtcodpy as libtcod
 
-from ..Map import Tile
+from rogue_one.map import Tile
 
 
 class BaseGenerator(object):
