@@ -3,6 +3,7 @@ import lib.libtcodpy as libtcod
 from rogue_one.geometry import Rect
 
 from map_generation import BaseGenerator
+from random_room_generation import RandomRoomGenerator
 
 
 class BSPGenerator(BaseGenerator):
@@ -14,7 +15,7 @@ class BSPGenerator(BaseGenerator):
         self.number_of_iterations = number_of_iterations
 
     def run(self, map):
-        area = Rect(0, 0, len(map) - 1, len(map[0]) - 1)
+        area = Rect((0, 0), len(map) - 1, len(map[0]) - 1)
 
         tree = self.generate_bsp_tree(self.number_of_iterations, area)
 
@@ -28,22 +29,22 @@ class BSPGenerator(BaseGenerator):
             ratio = libtcod.random_get_float(self.seed, 0.4, 0.6)
             if split_vertically:
                 # Vertical
-                a = Rect(area.x1,
-                         area.y1,
+                a = Rect((area.x1,
+                          area.y1),
                          int(area.w * ratio),
                          area.h)
-                b = Rect(area.x1 + a.w,
-                         area.y1,
+                b = Rect((area.x1 + a.w,
+                          area.y1),
                          area.w - a.w,
                          area.h)
             else:
                 # Horizontal
-                a = Rect(area.x1,
-                         area.y1,
+                a = Rect((area.x1,
+                          area.y1),
                          area.w,
                          int(area.h * ratio))
-                b = Rect(area.x1,
-                         area.y1 + a.h,
+                b = Rect((area.x1,
+                          area.y1 + a.h),
                          area.w,
                          area.h - a.h)
 
@@ -57,7 +58,8 @@ class BSPGenerator(BaseGenerator):
         rooms = get_leaf_nodes(tree)
 
         for room in rooms:
-
+            rrgen = RandomRoomGenerator(self.seed)
+            rrgen.run(map, room)
 
 
 class BSPTreeNode(object):

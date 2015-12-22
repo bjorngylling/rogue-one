@@ -8,7 +8,7 @@ class RandomRoomGenerator(BaseGenerator):
     """This class will generate a random room (square or rectangle for now)
     inside the provided bounds on the provided map"""
 
-    def __init__(self, seed, width_variation=5, height_variation=4):
+    def __init__(self, seed, width_variation=2, height_variation=1):
         super(RandomRoomGenerator, self).__init__(seed)
         self.width_variation = width_variation
         self.height_variation = height_variation

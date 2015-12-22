@@ -2,7 +2,7 @@ import lib.libtcodpy as libtcod
 from rogue_one.ecs import Entity
 from rogue_one.map import Level
 from rogue_one.generation.map_generation import TileGenerator
-from rogue_one.generation.random_room_generation import RandomRoomGenerator
+from rogue_one.generation.bsp_generation import BSPGenerator
 
 
 def handle_keys():
@@ -59,7 +59,7 @@ libtcod.console_init_root(
     SCREEN_WIDTH, SCREEN_HEIGHT, 'rogue-one', False, libtcod.RENDERER_GLSL)
 con = libtcod.console_new(SCREEN_WIDTH, SCREEN_HEIGHT)
 
-map_gen = RandomRoomGenerator(random)
+map_gen = BSPGenerator(random)
 map = map_gen.generate_map(MAP_WIDTH, MAP_HEIGHT, 1)
 map_gen.run(map)
 
