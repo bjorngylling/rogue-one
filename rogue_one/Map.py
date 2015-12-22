@@ -4,11 +4,11 @@ import copy
 
 class Level(object):
 
-    def __init__(self, map_height, map_width, con):
+    def __init__(self, map_width, map_height, con):
         self.map_height = map_height
         self.map_width = map_width
         self.con = con
-        self.level = [[]]
+        self.fill_map(None)
 
     def __setitem__(self, key, item):
         self.level[key] = item

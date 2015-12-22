@@ -1,7 +1,8 @@
 import lib.libtcodpy as libtcod
-from rogue_one.Entity import Entity
-from rogue_one.Map import Level
-from rogue_one.generation.RandomRoomGenerator import RandomRoomGenerator
+from rogue_one.ecs import Entity
+from rogue_one.map import Level
+from rogue_one.generation.map_generation import TileGenerator
+from rogue_one.generation.random_room_generation import RandomRoomGenerator
 
 
 def handle_keys():
@@ -48,6 +49,8 @@ FOV_ALGO = 0
 FOV_LIGHT_WALLS = True
 TORCH_RADIUS = 10
 
+random = libtcod.random_new()
+
 libtcod.console_set_custom_font(
     'terminal12x12_gs_ro.png',
     libtcod.FONT_TYPE_GREYSCALE | libtcod.FONT_LAYOUT_ASCII_INROW)
@@ -56,9 +59,13 @@ libtcod.console_init_root(
     SCREEN_WIDTH, SCREEN_HEIGHT, 'rogue-one', False, libtcod.RENDERER_GLSL)
 con = libtcod.console_new(SCREEN_WIDTH, SCREEN_HEIGHT)
 
-rrgen = RandomRoomGenerator()
-world = Level(MAP_HEIGHT, MAP_WIDTH, con)
-rrgen.run(world)
+map_gen = RandomRoomGenerator(random)
+map = map_gen.generate_map(MAP_WIDTH, MAP_HEIGHT, 1)
+map_gen.run(map)
+
+world = Level(MAP_WIDTH, MAP_HEIGHT, con)
+tiler = TileGenerator()
+tiler.run(world, map)
 
 player = Entity(27, 22, '@', libtcod.white, con, world)
 npc = Entity(56, 27, 'J', libtcod.yellow, con, world)

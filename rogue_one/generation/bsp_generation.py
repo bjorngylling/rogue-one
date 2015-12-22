@@ -54,7 +54,10 @@ class BSPGenerator(BaseGenerator):
             return BSPTreeNode(area)
 
     def generate_rooms(self, tree, map):
-        return
+        rooms = get_leaf_nodes(tree)
+
+        for room in rooms:
+
 
 
 class BSPTreeNode(object):
@@ -71,7 +74,8 @@ def get_leaf_nodes(node):
 
     def traveller(node):
         if (node.left is None and node.right is None):
-            result.add(node.data)
+            result.append(node.data)
+        return True
 
     traverse_tree_depth_first(node, traveller)
 
@@ -79,8 +83,8 @@ def get_leaf_nodes(node):
 
 
 def traverse_tree_depth_first(node, traveller):
-    """This function traverses all nodes under the supplied node, calling the
-    provided traveller for each individual node. Stops if the traverser returns
+    """Traverse all nodes under the supplied node, calling the provided
+    traveller for each individual node. Stops if the traveller returns
     False or if there are no further nodes.
     """
     if traveller(node):
