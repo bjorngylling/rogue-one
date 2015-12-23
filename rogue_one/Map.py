@@ -7,7 +7,9 @@ class Level(object):
     def __init__(self, map_width, map_height, con):
         self.map_height = map_height
         self.map_width = map_width
-        self.con = con
+
+        self._con = con
+
         self.fill_map(None)
 
     def __setitem__(self, key, item):
@@ -35,10 +37,10 @@ class Level(object):
             fg_color = fg_color * 2
 
         libtcod.console_set_char_background(
-            self.con, x, y, bk_color, libtcod.BKGND_SET)
-        libtcod.console_set_default_foreground(self.con, fg_color)
+            self._con, x, y, bk_color, libtcod.BKGND_SET)
+        libtcod.console_set_default_foreground(self._con, fg_color)
         libtcod.console_put_char(
-            self.con, x, y, tile.char, libtcod.BKGND_NONE)
+            self._con, x, y, tile.char, libtcod.BKGND_NONE)
 
     def fill_map(self, tile):
         self.level = [[copy.deepcopy(tile)

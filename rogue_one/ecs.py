@@ -1,26 +1,51 @@
-import lib.libtcodpy as libtcod
+import abc
 
 
 class Entity(object):
+    __slots__ = ("_guid", "_components")
 
-    def __init__(self, x, y, char, color, con, current_level):
-        self.x = x
-        self.y = y
-        self.char = char
-        self.color = color
-        self.con = con
-        self.current_level = current_level
+    def __init__(self, guid):
+        self._guid = guid
 
-    def move(self, dx, dy):
-        if not self.current_level[self.x + dx][self.y + dy].blocked:
-            self.x += dx
-            self.y += dy
+    def __repr__(self):
+        return "<Entity name:%s, guid:%s, components:%s>" \
+            % (self.__name__, self._guid, self)
 
-    def draw(self):
-        libtcod.console_set_default_foreground(self.con, self.color)
-        libtcod.console_put_char(self.con, self.x, self.y,
-                                 self.char, libtcod.BKGND_NONE)
+    def __hash__(self):
+        return self._guid
 
-    def clear(self):
-        libtcod.console_put_char(self.con, self.x, self.y,
-                                 ' ', libtcod.BKGND_NONE)
+    def __eq__(self, other):
+        return self._guid == hash(other)
+
+    def __ne__(self, other):
+        return self._guid != hash(other)
+
+    def __lt__(self, other):
+        return self._guid < hash(other)
+
+    def __le__(self, other):
+        return self._guid <= hash(other)
+
+    def __gt__(self, other):
+        return self._guid > hash(other)
+
+    def __ge__(self, other):
+        return self._guid <= hash(other)
+
+
+class Component(object):
+    """All components inherit from this class.
+    """
+    pass
+
+
+class System(object):
+    __metaclass__ = abc.ABCMeta
+
+    def __init__(self):
+        self.entity_manager = None
+        self.system_manager = None
+
+    @abc.abstractmethod
+    def update(self):
+        pass

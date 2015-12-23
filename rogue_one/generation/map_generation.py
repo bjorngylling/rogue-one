@@ -12,7 +12,7 @@ class BaseGenerator(object):
 
     @abc.abstractmethod
     def run(self, map, seed):
-        return
+        pass
 
     def generate_map(self, width, height, el=1):
         return [[el
