@@ -5,31 +5,6 @@ from rogue_one.generation.map_generation import TileGenerator
 from rogue_one.generation.bsp_generation import BSPGenerator
 
 
-def handle_keys():
-    global fov_recompute
-
-    key = libtcod.console_wait_for_keypress(True)
-
-    if key.vk == libtcod.KEY_ESCAPE:
-        return True
-
-    if libtcod.console_is_key_pressed(libtcod.KEY_UP):
-        fov_recompute = True
-        player.move(0, -1)
-
-    elif libtcod.console_is_key_pressed(libtcod.KEY_DOWN):
-        fov_recompute = True
-        player.move(0, 1)
-
-    elif libtcod.console_is_key_pressed(libtcod.KEY_LEFT):
-        fov_recompute = True
-        player.move(-1, 0)
-
-    elif libtcod.console_is_key_pressed(libtcod.KEY_RIGHT):
-        fov_recompute = True
-        player.move(1, 0)
-
-
 def render_all(fov_map):
     world.draw(fov_map)
 
@@ -83,11 +58,7 @@ fov_recompute = True
 while not libtcod.console_is_window_closed():
     libtcod.console_set_default_foreground(0, libtcod.white)
 
-    if fov_recompute:
-        fov_recompute = False
-        libtcod.map_compute_fov(
-            fov_map, player.x, player.y,
-            TORCH_RADIUS, FOV_LIGHT_WALLS, FOV_ALGO)
+
 
     render_all(fov_map)
 
@@ -95,8 +66,5 @@ while not libtcod.console_is_window_closed():
 
     for object in objects:
         object.clear()
-
-    if handle_keys():
-        break
 
 exit()
