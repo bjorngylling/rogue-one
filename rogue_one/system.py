@@ -53,20 +53,47 @@ class UpdateFOV(System):
                                     fov.algorithm)
 
 
-class Renderer(System):
-
+class WorldRenderer(System):
     def __init__(self, priority, console):
-        super(Renderer, self).__init__(priority)
+        super(WorldRenderer, self).__init__(priority)
         self._con = console
 
     def component_mask(self):
         return {component.Renderable, component.Position}
 
-    def update(self, world):
-        # We override the parent update since we are going to need the world
-        # to be able to access the map-data.
+    def process_components(self, components):
+        # Since we handle our own updating (see WorldRenderer#update) we do
+        # nothing here.
+        pass
 
+    def update(self, world):
         self.prepare_rendering()
+
+        # Draw the world
+        player = world.get_entity({component.Player}).components
+        fov_map = player[component.FieldOfView].fov_map
+        world.map.draw(fov_map)
+
+        # Draw all objects
+        for entity in world.entities:
+            if self.component_mask <= entity.component_mask:
+                self.draw_entity({k: entity.components[k]
+                                  for k in self.component_mask()}, fov_map)
+
+    def draw_entity(self, components, fov_map):
+        pos = components[component.Position]
+        in_fov = libtcod.map_is_in_fov(fov_map, pos.x, pos.y)
+
+        if in_fov:
+            print "drawing entity: %s" % (components)
+            render = components[component.Renderable]
+            libtcod.console_set_char_background(
+                self._con, pos.x, pos.y, render.bk_color, libtcod.BKGND_SET)
+            libtcod.console_set_default_foreground(self._con, render.fg_color)
+
+            if (render.char is not None):
+                libtcod.console_put_char(
+                     self._con, pos.x, pos.y, render.char, libtcod.BKGND_NONE)
 
     def prepare_rendering(self):
         libtcod.console_clear(self._con)

@@ -32,7 +32,6 @@ class Entity(object):
     def __ge__(self, other):
         return self._guid <= hash(other)
 
-    @property
     def component_mask(self):
         return set(self._components)
 
@@ -58,7 +57,7 @@ class System(object):
     def __init__(self, priority=0):
         self.priority = priority
 
-    @abc.abstractproperty
+    @abc.abstractmethod
     def component_mask(self):
         """Should return a set of Component types
         (ex: {VelocityComponent, PositionComponent})"""
@@ -70,6 +69,6 @@ class System(object):
 
     def update(self, world):
         for entity in world.entities:
-            if (self.component_mask <= entity.component_mask):
+            if self.component_mask() <= entity.component_mask():
                 self.process_components({k: entity.components[k]
-                                         for k in self.component_mask})
+                                         for k in self.component_mask()})

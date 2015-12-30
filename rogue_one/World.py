@@ -13,16 +13,22 @@ class World(object):
     def entities(self):
         return self._entities
 
+    def get_entity(self, component_mask):
+        for entity in self._entities:
+            if component_mask <= entity.component_mask():
+                return entity
+
     def create_entity(self, components):
         entity = Entity(self._next_entity_guid)
-        entity.components.add(components)
-        self._entities.add(entity)
+        for component in components:
+            entity.components[type(component)] = component
+        self._entities.append(entity)
         self._next_entity_guid += 1
 
     def add_system(self, system):
-        self._systems.add(system)
+        self._systems.append(system)
         self._systems.sort(key=lambda s: s.priority)
 
     def step(self):
-        for system in self.systems:
+        for system in self._systems:
             system.update(self)
