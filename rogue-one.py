@@ -39,6 +39,7 @@ def render_all(fov_map):
 
     libtcod.console_blit(con, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0)
 
+
 SCREEN_WIDTH = 80
 SCREEN_HEIGHT = 50
 
