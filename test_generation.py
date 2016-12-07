@@ -27,6 +27,7 @@ def trace_sections(tree):
     if tree.right is not None:
         trace_sections(tree.right)
 
+
 trace_sections(tree)
 
 libtcod.console_set_custom_font(

@@ -10,6 +10,7 @@ from rogue_one.generation.bsp_generation import BSPGenerator
 def render_screen(con):
     libtcod.console_blit(con, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0)
 
+
 SCREEN_WIDTH = 80
 SCREEN_HEIGHT = 50
 
