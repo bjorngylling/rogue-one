@@ -27,3 +27,6 @@ while True:
     for event in tdl.event.get():
         if event.type == 'QUIT':
             raise SystemExit('The window has been closed.')
+        if event.type == 'KEYDOWN':
+            if event.key == 'ESCAPE':
+                raise SystemExit('The window has been closed.')
