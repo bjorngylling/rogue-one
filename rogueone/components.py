@@ -1,4 +1,4 @@
-from rogue_one import constants
+from rogueone import constants
 
 
 class Position:

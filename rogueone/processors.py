@@ -1,7 +1,6 @@
 import esper
 
-from rogue_one import constants
-from rogue_one import components
+from rogueone import components
 
 
 class RenderProcessor(esper.Processor):
