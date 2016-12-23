@@ -5,26 +5,36 @@ import operator
 from rogueone import components, processors
 
 MOVEMENT_OPS = {
-            'UP': (0, -1), 'DOWN': (0, 1),
-            'LEFT': (-1, 0), 'RIGHT': (1, 0),
-            'K': (0, -1), 'J': (0, 1),
-            'H': (-1, 0), 'L': (1, 0)
-        }
+    'UP': (0, -1), 'DOWN': (0, 1),
+    'LEFT': (-1, 0), 'RIGHT': (1, 0),
+    'K': (0, -1), 'J': (0, 1),
+    'H': (-1, 0), 'L': (1, 0)
+}
 
 
 class RogueOneApp(tdl.event.App):
     def __init__(self, renderer):
         super().__init__()
         self.renderer = renderer
+        self.generate_map()
         self.setup_world()
 
     def setup_world(self):
         self.world = esper.World()
         self.player = self.world.create_entity(
             components.Position(1, 1),
-            components.Renderable("@"),
-            components.Player())
-        self.world.add_processor(processors.RenderProcessor(self.renderer))
+            components.Renderable("@"))
+        self.world.add_processor(
+            processors.RenderProcessor(self.renderer,
+                                       self.player,
+                                       self.map_sections))
+
+    def generate_map(self):
+        map_section = tdl.map.Map(80, 50)
+        for x, y in map_section:
+            map_section.transparent[x, y] = True
+            map_section.walkable[x, y] = True
+        self.map_sections = [map_section]
 
     def ev_QUIT(self, ev):
         raise SystemExit('The window has been closed.')
