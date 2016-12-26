@@ -2,7 +2,7 @@ import tdl
 import esper
 import operator
 
-from rogueone import components, processors
+from rogueone import components, processors, constants
 
 MOVEMENT_OPS = {
     'UP': (0, -1), 'DOWN': (0, 1),
@@ -23,17 +23,26 @@ class RogueOneApp(tdl.event.App):
         self.world = esper.World()
         self.player = self.world.create_entity(
             components.Position(1, 1),
+            components.Velocity(),
             components.Renderable("@"))
+
+        self.world.add_processor(
+            processors.CollisionProcessor(self.player, self.map_sections),
+            priority=100)
+        self.world.add_processor(processors.MovementProcessor(), priority=90)
         self.world.add_processor(
             processors.RenderProcessor(self.renderer,
                                        self.player,
-                                       self.map_sections))
+                                       self.map_sections), priority=0)
 
     def generate_map(self):
-        map_section = tdl.map.Map(80, 50)
+        map_section = Map(80, 50)
         for x, y in map_section:
-            map_section.transparent[x, y] = True
-            map_section.walkable[x, y] = True
+            wall = False
+            if ((x, y) in [(4, 4), (4, 5), (4, 6), (5, 7)]):
+                wall = True
+            map_section.transparent[x, y] = not wall
+            map_section.walkable[x, y] = not wall
         self.map_sections = [map_section]
 
     def ev_QUIT(self, ev):
@@ -44,12 +53,26 @@ class RogueOneApp(tdl.event.App):
 
     def ev_KEYDOWN(self, ev):
         if ev.keychar.upper() in MOVEMENT_OPS:
-            pos = self.world.component_for_entity(self.player,
-                                                  components.Position)
+            vel = self.world.component_for_entity(self.player,
+                                                  components.Velocity)
             dx, dy = MOVEMENT_OPS[ev.keychar.upper()]
-            pos.x += dx
-            pos.y += dy
+            vel.dx += dx
+            vel.dy += dy
 
     def update(self, dt):
         self.world.process()
         tdl.flush()
+
+
+class Map(tdl.map.Map):
+    def char_for_pos(self, x, y):
+        if self.walkable[x, y]:
+            return '.'
+        else:
+            return '#'
+
+    def color_for_pos(self, x, y):
+        if self.walkable[x, y]:
+            return (constants.COLOR_FLOOR, constants.COLOR_BG)
+        else:
+            return (constants.COLOR_WALLS, constants.COLOR_BG)
