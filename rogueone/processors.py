@@ -27,13 +27,29 @@ class CollisionProcessor(esper.Processor):
         # Only handle collisions on the same map section as the player
         player_pos = self.world.component_for_entity(self.player,
                                                      components.Position)
-        for ent, (pos, col) in self.components(player_pos.map_section):
-            pass
+
+        all_comps = self.components(player_pos.map_section)
+        for ent, (pos, col, vel) in all_comps:
+            for other_ent, (other_pos, other_col, other_vel) in all_comps:
+                if (ent == other_ent):
+                    # We don't want to check against ourselves, that would be
+                    # very silly!
+                    continue
+                if (pos.x + vel.dx == other_pos.x + other_vel.dx and
+                        pos.y + vel.dy == other_pos.y + other_vel.dy):
+                    self.solve_collision(ent, vel, other_ent, other_vel)
+
+    def solve_collision(self, ent, vel, other_ent, other_vel):
+        if ((vel.dx, vel.dy) != (0, 0)):
+            vel.dx, vel.dy = (0, 0)
+        elif ((other_vel.dx, other_vel.dy) != (0, 0)):
+            other_vel.dx, other_vel.dy = (0, 0)
 
     def components(self, map_section: int):
         comps = self.world.get_components(components.Position,
-                                          components.Collision)
-        return [(ent, (pos, col)) for ent, (pos, col) in comps
+                                          components.Collision,
+                                          components.Velocity)
+        return [(ent, (pos, col, vel)) for ent, (pos, col, vel) in comps
                 if pos.map_section == map_section]
 
 

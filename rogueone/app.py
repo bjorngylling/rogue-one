@@ -22,9 +22,15 @@ class RogueOneApp(tdl.event.App):
     def setup_world(self):
         self.world = esper.World()
         self.player = self.world.create_entity(
+            components.Collision(),
             components.Position(1, 1),
             components.Velocity(),
             components.Renderable("@"))
+        self.world.create_entity(
+            components.Collision(),
+            components.Position(1, 3),
+            components.Velocity(),
+            components.Renderable("k"))
 
         self.world.add_processor(
             processors.CollisionProcessor(self.player, self.map_sections),

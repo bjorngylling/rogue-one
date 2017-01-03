@@ -15,7 +15,8 @@ class Velocity:
 
 
 class Collision:
-    pass
+    def __init__(self) -> None:
+        pass
 
 
 class Renderable:
