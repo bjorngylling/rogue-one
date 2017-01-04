@@ -27,10 +27,19 @@ class CollisionProcessor(esper.Processor):
         # Only handle collisions on the same map section as the player
         player_pos = self.world.component_for_entity(self.player,
                                                      components.Position)
+        self.check_for_collisions(self.components(player_pos.map_section),
+                                  self.map_sections[player_pos.map_section])
 
-        all_comps = self.components(player_pos.map_section)
-        for ent, (pos, col, vel) in all_comps:
-            for other_ent, (other_pos, other_col, other_vel) in all_comps:
+    def check_for_collisions(self, all_components, map_section):
+        for ent, (pos, col, vel) in all_components:
+            # Check for collisions on the map_section
+            if (not map_section.walkable[pos.x + vel.dx, pos.y + vel.dy]):
+                vel.dx = 0
+                vel.dy = 0
+                continue
+
+            # Check for collisions against other entities
+            for other_ent, (other_pos, other_col, other_vel) in all_components:
                 if (ent == other_ent):
                     # We don't want to check against ourselves, that would be
                     # very silly!
